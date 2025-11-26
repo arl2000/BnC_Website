@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BnC | Build n Chill</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Orbitron for headers, Inter for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bncDark: '#050B14',
+                        bncCyan: '#00f3ff',
+                        bncPink: '#bc13fe',
+                        bncPurple: '#5e17eb',
+                        bncGlass: 'rgba(255, 255, 255, 0.05)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        orbitron: ['Orbitron', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'hero-glow': 'radial-gradient(circle at center, rgba(94, 23, 235, 0.15) 0%, rgba(5, 11, 20, 0) 70%)',
+                        'gradient-text': 'linear-gradient(to right, #00f3ff, #bc13fe)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            'from': { boxShadow: '0 0 10px -10px #00f3ff' },
+                            'to': { boxShadow: '0 0 20px 5px #00f3ff' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for things Tailwind is too verbose for */
+        body {
+            background-color: #050B14;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Stars */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.3;
+        }
+
+        /* Neon Glow Utility */
+        .neon-text {
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.5), 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+        
+        .neon-border {
+            box-shadow: 0 0 5px #00f3ff, inset 0 0 5px #00f3ff;
+        }
+
+        .neon-box:hover {
+            box-shadow: 0 0 15px rgba(188, 19, 254, 0.6);
+            border-color: #bc13fe;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050B14; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #5e17eb; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #bc13fe; 
+        }
+
+        /* Custom Selection Color */
+        ::selection {
+            background: #00f3ff;
+            color: #050B14;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Background Stars -->
+    <div class="stars"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md border-b border-white/10 bg-bncDark/80" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo Area -->
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <!-- SVG Logo Placeholder based on Image -->
+                    <div class="relative w-10 h-10 flex items-center justify-center rounded-full border-2 border-bncCyan shadow-[0_0_10px_#00f3ff]">
+                        <i class="fa-solid fa-brain text-bncPink text-lg drop-shadow-[0_0_5px_#bc13fe]"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-2xl bg-clip-text text-transparent bg-gradient-text">BnC</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="font-orbitron text-sm hover:text-bncCyan transition-colors duration-300">HOME</a>
+                        <a href="#about" class="font-orbitron text-sm hover:text-bncPink transition-colors duration-300">ABOUT</a>
+                        <a href="#services" class="font-orbitron text-sm hover:text-bncCyan transition-colors duration-300">SERVICES</a>
+                        <a href="#projects" class="font-orbitron text-sm hover:text-bncPink transition-colors duration-300">PROJECTS</a>
+                        <a href="#contact" class="px-6 py-2 rounded-full border border-bncCyan text-bncCyan hover:bg-bncCyan hover:text-bncDark transition-all duration-300 font-orbitron text-sm font-bold shadow-[0_0_10px_rgba(0,243,255,0.2)] hover:shadow-[0_0_20px_rgba(0,243,255,0.6)]">CONTACT</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" onclick="toggleMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-bncDark/95 backdrop-blur-xl border-b border-white/10" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <a href="#home" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-orbitron font-medium hover:text-bncCyan">HOME</a>
+                <a href="#about" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-orbitron font-medium hover:text-bncPink">ABOUT</a>
+                <a href="#services" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-orbitron font-medium hover:text-bncCyan">SERVICES</a>
+                <a href="#projects" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-orbitron font-medium hover:text-bncPink">PROJECTS</a>
+                <a href="#contact" onclick="toggleMenu()" class="block px-3 py-2 mt-4 rounded-md text-base font-orbitron font-bold text-bncDark bg-bncCyan">CONTACT US</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Glow -->
+        <div class="absolute inset-0 bg-hero-glow pointer-events-none"></div>
+        
+        <!-- Decorative Circles (Circuit rings from logo) -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-bncCyan/20 rounded-full animate-[spin_10s_linear_infinite] md:w-[800px] md:h-[800px]"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] border border-bncPink/20 rounded-full animate-[spin_15s_linear_infinite_reverse] md:w-[700px] md:h-[700px]"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="animate-float">
+                 <!-- Brain Icon Large -->
+                <i class="fa-solid fa-brain text-6xl md:text-8xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-bncCyan to-bncPink drop-shadow-[0_0_15px_rgba(188,19,254,0.5)]"></i>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black font-orbitron tracking-tight mb-4">
+                <span class="block text-white">BUILD <span class="text-bncCyan text-4xl align-middle">n</span> CHILL</span>
+            </h1>
+            
+            <p class="mt-4 max-w-2xl mx-auto text-xl md:text-2xl text-gray-300 font-light tracking-wide">
+                Your one-stop shop for <span class="text-bncCyan font-bold">IT</span> & <span class="text-bncPink font-bold">Creative Services</span>.<br class="hidden md:block"> Combining technology and design to help you run smarter and look better.
+            </p>
+
+            <div class="mt-10 flex justify-center gap-4">
+                <a href="#contact" class="group relative px-8 py-3 bg-transparent overflow-hidden rounded-none skew-x-[-10deg] border border-bncCyan transition-all hover:bg-bncCyan/10">
+                    <div class="absolute inset-0 w-0 bg-bncCyan transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
+                    <span class="relative font-orbitron font-bold text-bncCyan skew-x-[10deg] inline-block">START BUILDING</span>
+                </a>
+                <a href="#services" class="group relative px-8 py-3 bg-transparent overflow-hidden rounded-none skew-x-[-10deg] border border-bncPink transition-all hover:bg-bncPink/10">
+                    <span class="relative font-orbitron font-bold text-bncPink skew-x-[10deg] inline-block">EXPLORE</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative bg-bncDark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Image/Graphic Side -->
+                <div class="relative order-2 lg:order-1">
+                    <div class="relative rounded-2xl overflow-hidden border border-white/10 bg-bncGlass p-8 backdrop-blur-sm group hover:border-bncCyan/50 transition-colors duration-500">
+                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-bncCyan/20 rounded-full blur-3xl group-hover:bg-bncCyan/30 transition-all"></div>
+                        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-bncPink/20 rounded-full blur-3xl group-hover:bg-bncPink/30 transition-all"></div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-4 pt-8">
+                                <div class="h-32 bg-white/5 rounded-lg border border-white/5 flex items-center justify-center">
+                                    <i class="fa-solid fa-code text-4xl text-bncCyan"></i>
+                                </div>
+                                <div class="h-48 bg-white/5 rounded-lg border border-white/5 flex items-center justify-center">
+                                    <i class="fa-solid fa-microchip text-4xl text-bncPink"></i>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="h-48 bg-white/5 rounded-lg border border-white/5 flex items-center justify-center">
+                                    <i class="fa-solid fa-network-wired text-4xl text-bncPurple"></i>
+                                </div>
+                                <div class="h-32 bg-white/5 rounded-lg border border-white/5 flex items-center justify-center">
+                                    <i class="fa-solid fa-rocket text-4xl text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="order-1 lg:order-2">
+                    <h2 class="text-bncCyan font-orbitron font-bold text-lg mb-2 tracking-widest uppercase">Why Choose Us</h2>
+                    <h3 class="text-4xl md:text-5xl font-bold text-white mb-6">Bridging Logic & Creativity</h3>
+                    <p class="text-gray-400 text-lg mb-6 leading-relaxed">
+                        At <span class="text-white font-semibold">Build n Chill</span>, we don't just write code; we engineer peace of mind. We combine <span class="text-bncCyan">Tech</span> and <span class="text-bncPink">Creative</span> expertise in one place to provide solutions that work flawlessly and look amazing.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:border-bncCyan transition-colors">
+                            <i class="fa-solid fa-bolt text-bncCyan text-xl"></i>
+                            <span class="text-sm font-orbitron text-gray-200">Fast & Reliable Service</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:border-bncPink transition-colors">
+                            <i class="fa-solid fa-tag text-bncPink text-xl"></i>
+                            <span class="text-sm font-orbitron text-gray-200">Affordable Rates</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:border-bncPurple transition-colors">
+                            <i class="fa-solid fa-wand-magic-sparkles text-bncPurple text-xl"></i>
+                            <span class="text-sm font-orbitron text-gray-200">Tech + Creative Experts</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:border-white transition-colors">
+                            <i class="fa-solid fa-location-dot text-white text-xl"></i>
+                            <span class="text-sm font-orbitron text-gray-200">On-site Assistance</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 relative overflow-hidden">
+        <!-- Section Background Gradient -->
+        <div class="absolute inset-0 bg-gradient-to-b from-bncDark via-[#0a0f1c] to-bncDark"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-bncPink font-orbitron font-bold text-lg mb-2 tracking-widest uppercase">Our Capabilities</h2>
+                <h3 class="text-4xl md:text-5xl font-bold text-white">System Modules</h3>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- IT Services Column -->
+                <div class="group neon-box relative bg-bncGlass backdrop-blur-md p-8 rounded-xl border border-white/10 transition-all duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-br from-bncCyan/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-16 h-16 rounded-lg bg-bncCyan/20 flex items-center justify-center text-bncCyan group-hover:text-white group-hover:bg-bncCyan transition-colors">
+                                <i class="fa-solid fa-wrench text-3xl"></i>
+                            </div>
+                            <h4 class="text-3xl font-orbitron font-bold text-white">IT Services</h4>
+                        </div>
+                        
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3 text-gray-300 hover:text-bncCyan transition-colors">
+                                <i class="fa-solid fa-chevron-right text-bncCyan mt-1 text-xs"></i>
+                                <span>Computer & laptop repair (hardware/software)</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-gray-300 hover:text-bncCyan transition-colors">
+                                <i class="fa-solid fa-chevron-right text-bncCyan mt-1 text-xs"></i>
+                                <span>OS installation, reformatting, and optimization</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-gray-300 hover:text-bncCyan transition-colors">
+                                <i class="fa-solid fa-chevron-right text-bncCyan mt-1 text-xs"></i>
+                                <span>Printer setup & troubleshooting</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-gray-300 hover:text-bncCyan transition-colors">
+                                <i class="fa-solid fa-chevron-right text-bncCyan mt-1 text-xs"></i>
+                                <span>File & partition recovery</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-gray-300 hover:text-bncCyan transition-colors">
+                                <i class="fa-solid fa-chevron-right text-bncCyan mt-1 text-xs"></i>
+                                <span>Administrator password reset</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-gray-300 hover:text-bncCyan transition-colors">
+                                <i class="fa-solid fa-chevron-right text-bncCyan mt-1 text-xs"></i>
+                                <span>Networking (Wi-Fi, LAN, router setup)</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-gray-300 hover:text-bncCyan transition-colors">
+                                <i class="fa-solid fa-chevron-right text-bncCyan mt-1 text-xs"></i>
+                                <span>Website building</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-gray-300 hover:text-bncCyan transition-colors">
+                                <i class="fa-solid fa-chevron-right text-bncCyan mt-1 text-xs"></i>
+                                <span>POS (Point of Sale) system setup</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Graphic Design Column -->
+                <div class="group neon-box relative bg-bncGlass backdrop-blur-md p-8 rounded-xl border border-white/10 transition-all duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-br from-bncPink/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-16 h-16 rounded-lg bg-bncPink/20 flex items-center justify-center text-bncPink group-hover:text-white group-hover:bg-bncPink transition-colors">
+                                <i class="fa-solid fa-palette text-3xl"></i>
+                            </div>
+                            <h4 class="text-3xl font-orbitron font-bold text-white">Graphic Design</h4>
+                        </div>
+                        
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3 text-gray-300 hover:text-bncPink transition-colors">
+                                <i class="fa-solid fa-chevron-right text-bncPink mt-1 text-xs"></i>
+                                <span>Shirt design</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-gray-300 hover:text-bncPink transition-colors">
+                                <i class="fa-solid fa-chevron-right text-bncPink mt-1 text-xs"></i>
+                                <span>Logo & branding design</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-gray-300 hover:text-bncPink transition-colors">
+                                <i class="fa-solid fa-chevron-right text-bncPink mt-1 text-xs"></i>
+                                <span>Posters, banners, flyers, and business cards</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-gray-300 hover:text-bncPink transition-colors">
+                                <i class="fa-solid fa-chevron-right text-bncPink mt-1 text-xs"></i>
+                                <span>Social media graphics and layouts</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 bg-bncDark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-bncCyan font-orbitron font-bold text-lg mb-2 tracking-widest uppercase">Portfolio</h2>
+                    <h3 class="text-4xl md:text-5xl font-bold text-white">Recent Deployments</h3>
+                </div>
+                <button class="hidden md:block text-bncPink border-b border-bncPink hover:text-white transition-colors pb-1 font-orbitron text-sm">VIEW ALL ARCHIVES</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Project 1 -->
+                <div class="group relative overflow-hidden rounded-xl h-64 md:h-80 cursor-pointer">
+                    <img src="images/drrm.png" alt="Cyberpunk City" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40">
+                    <div class="absolute inset-0 bg-gradient-to-t from-bncDark via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <span class="text-bncCyan text-xs font-orbitron mb-2 block">DRRM INCIDENT TRACKING APP</span>
+                        <h4 class="text-2xl font-bold text-white group-hover:text-bncCyan transition-colors">Project: Tracking App</h4>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="group relative overflow-hidden rounded-xl h-64 md:h-80 cursor-pointer">
+                    <img src="images/agrimarket.png" alt="Tech Circuit" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40">
+                    <div class="absolute inset-0 bg-gradient-to-t from-bncDark via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <span class="text-bncPink text-xs font-orbitron mb-2 block">ECOMMERCE PLATFORM</span>
+                        <h4 class="text-2xl font-bold text-white group-hover:text-bncPink transition-colors">Project: AgriMarket</h4>
+                    </div>
+                </div>
+            </div>
+            
+             <button class="md:hidden mt-8 w-full text-bncPink border border-bncPink py-3 rounded hover:bg-bncPink hover:text-white transition-colors font-orbitron text-sm">VIEW ALL ARCHIVES</button>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative">
+         <!-- Glow -->
+        <div class="absolute right-0 bottom-0 w-1/3 h-full bg-bncCyan/5 blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                
+                <!-- Contact Info -->
+                <div class="space-y-8">
+                    <div>
+                        <h2 class="text-3xl md:text-5xl font-bold font-orbitron text-white mb-6">Initialize <span class="text-bncCyan">Connection</span></h2>
+                        <p class="text-gray-400 text-lg">Ready to start building? Contact us directly or send a signal to our server using the form.</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 rounded-full bg-bncCyan/10 border border-bncCyan/30 flex items-center justify-center text-bncCyan group-hover:bg-bncCyan group-hover:text-bncDark transition-all duration-300">
+                                <i class="fa-solid fa-envelope text-xl"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs font-orbitron text-gray-500 mb-1">EMAIL FREQUENCY</span>
+                                <a href="mailto:buildnchill.tech@gmail.com" class="text-lg text-white hover:text-bncCyan transition-colors">buildnchill.tech@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 rounded-full bg-bncPink/10 border border-bncPink/30 flex items-center justify-center text-bncPink group-hover:bg-bncPink group-hover:text-bncDark transition-all duration-300">
+                                <i class="fa-solid fa-phone text-xl"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs font-orbitron text-gray-500 mb-1">DIRECT LINE</span>
+                                <a href="tel:0927405639" class="text-lg text-white hover:text-bncPink transition-colors">09274056390</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 rounded-full bg-bncPurple/10 border border-bncPurple/30 flex items-center justify-center text-bncPurple group-hover:bg-bncPurple group-hover:text-bncDark transition-all duration-300">
+                                <i class="fa-solid fa-location-dot text-xl"></i>
+                            </div>
+                            <div>
+                                <span class="block text-xs font-orbitron text-gray-500 mb-1">BASE LOCATION</span>
+                                <span class="text-lg text-white">La Carlota City & Bago City</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#02050a] border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-brain text-bncPink"></i>
+                <span class="font-orbitron font-bold text-xl text-white">BnC</span>
+            </div>
+            
+            <div class="text-gray-500 text-sm">
+                &copy; 2024 Build n Chill. All Systems Operational.
+            </div>
+
+            <div class="flex space-x-6">
+                <a href="#" class="text-gray-400 hover:text-bncCyan transition-colors"><i class="fa-brands fa-twitter text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-bncPink transition-colors"><i class="fa-brands fa-instagram text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-bncPurple transition-colors"><i class="fa-brands fa-linkedin text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Navbar Glass Effect on Scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.classList.add('bg-bncDark/90');
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.classList.remove('bg-bncDark/90');
+            }
+        });
+    </script>
+</body>
+</html>
